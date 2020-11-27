@@ -16,7 +16,8 @@ function showPage(list, page) {
    // & then subtracting the number of studentPerPage
    const startIndex = (page * studentPerPage) - studentPerPage;
    const endIndex = page * studentPerPage;
-   for (let i = 0; i < studentList.length; i++) {
+   listContainer.innerHTML = ''; // Empty Previous List of Students
+   for (let i = 0; i < list.length; i++) {
       if (i >= startIndex && i < endIndex) {
          const student = list[i];
          createStudentCard(student);
@@ -27,32 +28,37 @@ function showPage(list, page) {
 // ---------------------------
 // Create Student Display Card
 function createStudentCard (student) {
-   const name = student.name;
-   const email = student.email;
-   const registered = student.registered;
-   const picture = student.picture;
-   const card = document.createElement('li');
-   card.classList.add('student-item', 'cf');
    const html= `
-      <div class="student-details">
-      <img class="avatar" src="${picture.large}" alt="Profile Picture">
-      <h3>${name.first} ${name.last}</h3>
-      <span class="email">${email}</span>
-      </div>
-      <div class="joined-details">
-      <span class="date">Joined ${registered.date}</span>
-      </div>
+      <li class="student-item cf">
+         <div class="student-details">
+         <img class="avatar" src="${student.picture.large}" alt="Profile Picture">
+         <h3>${student.name.first} ${student.name.last}</h3>
+         <span class="email">${student.email}</span>
+         </div>
+         <div class="joined-details">
+         <span class="date">Joined ${student.registered.date}</span>
+         </div>
+      </li>
    `;
-   card.innerHTML = html;
-   listContainer.appendChild(card);
+   listContainer.innerHTML += html;
 }
-showPage(studentList, 1);
 
-/*
-Create the `addPagination` function
-This function will create and insert/append the elements needed for the pagination buttons
-*/
-
-
+// ------------------
+// Pagination Buttons
+function addPagination(list) {
+   const totalPages = Math.ceil(list.length / studentPerPage);
+   const paginationContainer = document.querySelector('ul.link-list');
+   paginationContainer.innerHTML = ''; // Empty Previous Pagination
+   for (let i = 0; i < totalPages; i++) {
+      const html = `
+         <li>
+            <button type="button">${i}</button>
+         </li>
+      `;
+      paginationContainer.innerHTML += html;
+   }
+}
+addPagination(studentList);
 
 // Call functions
+showPage(studentList, 1);
