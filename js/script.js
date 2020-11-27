@@ -75,8 +75,8 @@ function addPagination(list) {
    });
 }
 
-// ----------------------------------------------------
-// Remove Pagination Buttons & Display No Results Found
+// ------------------------------------------------------
+// Remove Pagination Buttons & Display "No Results Found"
 function removePagination() {
    linkList.innerHTML = ''; // Empty Previous Pagination
    listContainer.innerHTML = ''; // Empty Previous List of Students
@@ -106,6 +106,7 @@ function addSearch (list) {
       searchText = document.querySelector('#search').value;
       let searchList = [];
       for (let i = 0; i < list.length; i++) {
+         // Check if search list is empty or contains letters in the first or last name
          if (searchText !== '' && 
             list[i].name.first.toLowerCase().includes(searchText.toLowerCase()) || // if search matches first name
             list[i].name.last.toLowerCase().includes(searchText.toLowerCase())) { // or if search matches last name
@@ -114,13 +115,14 @@ function addSearch (list) {
             searchList = studentList;
          }
       }
-      // Update Page
+      // Update Page with search list
       showPage(searchList, 1);
-      // If there are search results, show pagination
+      
       if (searchList.length > 0) {
+         // If there are search results, show pagination
          addPagination(searchList);
       } else {
-         // If no search results, remove pagination and display error message
+         // If no search results, remove pagination and display message
          removePagination();
       }
    }
@@ -136,7 +138,9 @@ function addSearch (list) {
       }
    });
 }
-// Call functions
+
+// ----------------------
+// Call Initial Functions
 showPage(studentList, 1);
 addPagination(studentList);
 addSearch(studentList);
