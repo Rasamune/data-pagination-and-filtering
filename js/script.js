@@ -43,22 +43,38 @@ function createStudentCard (student) {
    listContainer.innerHTML += html;
 }
 
-// ------------------
-// Pagination Buttons
+// -------------------------
+// Create Pagination Buttons
 function addPagination(list) {
    const totalPages = Math.ceil(list.length / studentPerPage);
-   const paginationContainer = document.querySelector('ul.link-list');
-   paginationContainer.innerHTML = ''; // Empty Previous Pagination
+   const linkList = document.querySelector('ul.link-list');
+   linkList.innerHTML = ''; // Empty Previous Pagination
    for (let i = 0; i < totalPages; i++) {
       const html = `
          <li>
-            <button type="button">${i}</button>
+            <button type="button">${i + 1}</button>
          </li>
       `;
-      paginationContainer.innerHTML += html;
+      linkList.innerHTML += html;
    }
+   linkList.querySelector('li > button').className = 'active';
+
+   // Check for Button Clicks
+   linkList.addEventListener('click', (e) => {
+      const button = e.target;
+      const pageNumber = button.textContent;
+      if (button.tagName === "BUTTON") {
+         // Remove 'active' class from all buttons
+         for(let i = 0; i < linkList.children.length; i++) {
+            linkList.children[i].firstElementChild.classList = '';
+         }
+         // Set the clicked button to 'active'
+         button.className = "active";
+         showPage(list, pageNumber);
+      }
+   });
 }
-addPagination(studentList);
 
 // Call functions
 showPage(studentList, 1);
+addPagination(studentList);
